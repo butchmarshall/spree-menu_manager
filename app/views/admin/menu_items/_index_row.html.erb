@@ -1,0 +1,50 @@
+<% content_for :head do %>
+
+<% javascript_tag do %>
+
+	function edit_<%= menu_item.id %>_menu_item() {
+
+		var template = "<%= escape_javascript( render( :partial => 'form', :locals => { :menu_item => menu_item } ).html_safe ) %>";
+
+		$("#menu_item").html( template );
+
+	}
+
+<% end %>
+
+<% end %>
+
+<% depth ||= 0 %>
+
+<tr valign="middle" id="<%= dom_id menu_item %>">
+    <%- locals = {:menu_item => menu_item} -%>
+
+    <td>
+      <div style="display:block;float:left;font-size:4px;padding-left:<%= depth*10 %>px;width:10px;padding-top:2px;padding-right:2px;">        
+        <%= link_to image_tag("admin/icons/up.gif", :border => 0), move_up_admin_menu_menu_items_path(@menu.id, menu_item.id), { :style => (!menu_item.left_sibling)? "visibility:hidden;" : "" }  %>&nbsp;
+        <%= link_to image_tag("admin/icons/arrow-down.gif", :border => 0), move_down_admin_menu_menu_items_path(@menu.id, menu_item.id), { :style => (!menu_item.right_sibling)? "visibility:hidden;" : "" } %>
+      </div>
+      <div style="font-size:12px;"><%= menu_item.name %></div>
+    </td>
+		<td><%= menu_item.content_type -%></td>
+		<td>
+			<% if menu_item.mouse_out && menu_item.mouse_over && menu_item.mouse_down %>
+				<%= image_tag menu_item.mouse_out.url(:original), { 	
+										   	:onmouseover => "this.src = '#{menu_item.mouse_over.url(:original)}'",
+										   	:onmouseout => "this.src = '#{menu_item.mouse_out.url(:original)}'",
+										   	:onmousedown => "this.src = '#{menu_item.mouse_down.url(:original)}'",
+										   	:onmouseup => "this.src = '#{menu_item.mouse_over.url(:original)}'",
+											} 
+				-%>
+		</td>
+		<td><%= menu_item.menuable_content %></td>
+    <% end %>
+    <td class="actions" width="120px">
+        <%= link_to_edit menu_item, { :url => edit_admin_menu_menu_item_path(@menu,menu_item), :onclick => "edit_#{ menu_item.id }_menu_item(); return false;" } %>
+        &nbsp;
+        <%= link_to_delete menu_item, { :url => admin_menu_menu_item_path(@menu,menu_item) } %>
+    </td>
+</tr>
+<% menu_item.children.each { |i| %>
+	<%= render :partial => "index_row", :locals => { :menu_item => i, :depth => (depth+1) } %>	
+<% } %>

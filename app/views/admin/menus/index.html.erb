@@ -1,0 +1,43 @@
+
+<div class='toolbar'>
+  <ul class='actions'>
+    <li>
+      <%= button_link_to t("new_menu"), new_object_url, { :remote => true, :icon => 'add', :id => 'admin_new_menus_link' } -%>
+    </li>
+  </ul>
+  <br class='clear' />
+</div>
+
+<h1><%= t("menus") %></h1>
+
+<div id="new_menu"></div>
+
+<table class="index" id='listing_menus'>
+  <tr>
+    <%= hook :admin_menus_index_headers do %>
+      <th><%= t("name") %></th>
+      <th><%= t("placement") %></th>
+    <% end %>
+    <th>
+      <%= hook :admin_menus_index_header_actions %>
+    </th>
+  </tr>
+  <tbody>
+    <% @menus.each do |method|%>
+      <tr id="<%= dom_id method %>">
+        <%- locals = {:method => method} %>
+        <%= hook :admin_menus_index_rows, locals do %>
+          <td width="120px"><%= method.name %></td>
+          <td width="140px"><%= method.placement %></td>
+        <% end %>
+        <td width="140px">
+          <%= hook :admin_menus_index_row_actions, locals do %>
+            <%= link_to_edit method, :class => 'edit' %>
+            &nbsp;
+            <%= link_to_delete method %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

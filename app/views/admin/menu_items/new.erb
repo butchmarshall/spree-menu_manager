@@ -1,0 +1,26 @@
+<%= render "shared/error_messages", :target => @menu %>
+
+<%= form_for(:menu,  :url => admin_menu_menu_items_url(@menu), :html => { :multipart => true }) do |f| %>
+<fieldset>
+
+  <%= f.field_container :name do %>
+    <%= f.label :name, t("name") %> <span class="required">*</span><br />
+    <%= f.text_field :name, :class => 'title'  %>
+    <%= f.error_message_on :name %>
+  <% end %>
+
+
+  <div class="yui-gb">
+    <div class="yui-u first">
+
+ 
+    </div>
+    <div class="yui-u">
+
+    </div>
+  </div>
+
+  <%= render :partial => 'admin/shared/new_ajax_blind_links' %>
+
+</fieldset>
+<% end %>

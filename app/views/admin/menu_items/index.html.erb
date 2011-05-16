@@ -1,0 +1,53 @@
+<% content_for :head do %>
+
+<% javascript_tag do %>
+
+	function new_menu_item() {
+
+		var template = "<%= escape_javascript( render( :partial => 'form', :locals => { :menu_item => MenuItem.new(:menu => @menu) } ).html_safe ) %>";
+
+		$("#menu_item").html( template );
+
+	}
+	
+<% end %>
+
+<% end %>
+
+
+<%= render :partial => 'admin/shared/menu_tabs', :locals => {:current => "Menu Items"} %>
+
+<div class='toolbar'>
+  <ul class='actions'>
+    <li>
+      <%= button_link_to_function t("new_menu_item"), "new_menu_item()", { :icon => 'add', :id => 'admin_new_menu_items_link' } -%>
+    </li>
+  </ul>
+  <br class='clear' />
+</div>
+
+<h1><%= t("menu_items") %></h1>
+
+<%= render :partial => 'admin/shared/menu_item_tabs', :locals => {:current => "List Items"} %>
+
+<div id="menu_item"></div>
+
+<table class="index" id='listing_menu_items'>
+
+  <tr>
+
+		  <th><%= t("name") %></th>
+		  <th><%= t("content_type") %></th>
+		  <th><%= t("image") %></th>
+		  <th><%= t("content") %></th>
+
+    <th>
+      <%= hook :admin_menus_index_header_actions %>
+    </th>
+  </tr>
+  <tbody>
+    <% @menu_items.each do |menu_item| %>
+	    <%= render :partial => "index_row", :locals => { :menu_item => menu_item, :depth => 0 } %>	
+    <% end %>
+  </tbody>
+</table>

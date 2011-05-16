@@ -1,0 +1,197 @@
+/*XXXXXXXXXX Generic page styling rules XXXXXXXXXX*/
+		
+
+ul.menu-manager-dropdown-flyout,
+ul.menu-manager-dropdown-flyout ul, 
+ul.menu-manager-dropdown-flyout li { 
+  list-style: none;
+  margin:0px;
+  padding:0px;
+}
+
+
+
+
+/*XXXXXXXXXXXX Primary top nav rules XXXXXXXXXXX*/
+
+
+ul.menu-manager-dropdown-flyout .button {
+	width: 190px;
+	float: left;
+	}
+
+ul.menu-manager-dropdown-flyout .parent {position: relative;}
+/* this parent div does not provide "sticky hovering", but instead fixes a 
+strange bug in Op7. When an element serves as a hovered popup "parent" element, 
+that element must not also be floated or all heck breaks loose in Opera 7. 
+To prevent this, we have floated the top level list items, while nesting 
+hoverable parent divs inside that are then hovered to generate the dropdowns. 
+Thus the ugly (but interesting) Op7 bug is defeated. */
+	
+ul.menu-manager-dropdown-flyout .floatfix {margin-right: -3px;}
+/* this fixes the IE 3px bug that is common in this type of float arrangement */ 
+
+
+/*XXXXXXXXXXXX Primary dropdown/flyout rules XXXXXXXXXXX*/
+
+ul.menu-manager-dropdown-flyout .dropdown { /* rules for dropdown div */
+	width: 250px;
+	position: absolute;		
+	left: -3000px;
+	top: auto; /* puts dropdowns directly under top nav */
+	text-align: left; /* needed because IE misapplies text centering to boxes */
+/*	border: 1px solid red;	*/
+	background: url(/images/menu_manager/bgfix.gif);
+	}
+	
+.menu-manager-dropdown-flyout .dropdown div {
+	width: 220px;
+	position: absolute;		
+	left: -3000px;
+	top: 0;  
+/*	border: 1px solid red;	*/
+	background: url(/images/menu_manager/bgfix.gif);
+	text-align: left; /* needed because IE misapplies text centering to boxes */
+	}
+	
+/* The margins on the UL's replace the div paddings to create "sticky hovering"
+zones,  and the margins should "fill" the divs, making the IE BG fix unnecessary.
+Unfortunately the BG fix is still needed, altho this method does eliminate
+possible box model problems */
+	
+.menu-manager-dropdown-flyout .dropdown ul { 
+  width: 189px; /* tweaked so that dropdowns appear to "line up" with top links */
+  margin: 0 30px 30px 30px; /* creates "sticky hovering" zones for dropdowns */
+  border: 1px solid #888; 
+  border-width: 1px 1px 0; 
+  } /* borders sides and top of the dropdowns and flyouts; links provide the bottom border */
+	
+.menu-manager-dropdown-flyout .dropdown div ul {margin: 30px 30px 30px 0;} /* creates "sticky hovering" zones for flyouts */
+	
+.menu-manager-dropdown-flyout .last-parent .dropdown ul {width: 190px;} /* modifies width for rightmost "visible" dropdown (tweak) */
+		
+.menu-manager-dropdown-flyout .last-parent .dropdown div ul {margin: 30px 0 30px 30px; position: relative;} /* rule reversal for "visible" right drop flyouts */
+
+.menu-manager-dropdown-flyout li {text-align: center;}
+
+.menu-manager-dropdown-flyout  a {
+  display: block;
+	font-weight: bold;
+	font-size: .9em;
+	text-decoration: none;
+	padding: 6px 0 5px; 
+	border-right: 1px solid #888;  /* makes the dividers between the top nav links */
+}
+
+.menu-manager-dropdown-flyout .last-parent a {border-right: 0;} /* kills right border on last top link */
+	
+ul.menu-manager-dropdown-flyout  ul a {
+  border-right: 0; /* negates right border for dropdowns and flyouts */
+  border-bottom: 1px solid #888;  /* borders the bottoms of the dropdown and flyout links */
+}
+	
+.menu-manager-dropdown-flyout .dropdown li {
+  background-color:#ffffff;
+  position: relative; 
+  vertical-align: bottom; /* IE5/win bugfix */
+  }
+				
+.menu-manager-dropdown-flyout .parent:hover {background-image: url(/images/menu_manager/bgfix.gif);} 
+/* this hover calls a transparent GIF only to defeat the IE failed hover bug. Any 
+background change on hovering div.parent will make IE obey and display the dropdown.
+While the call itself will fix the bug, make sure you actually call a real image 
+file so that your site error logs will not fill with failed image calls. */
+				
+.menu-manager-dropdown-flyout .parent:hover div.dropdown {left: -31px;} /* hover rule for dropdowns */ 
+/* extra pixel makes dropdowns "line up" with top links */ 
+
+.menu-manager-dropdown-flyout .dropdown li:hover div { /* hover rule for flyouts */
+	left: 180px; /* this value controls the amount of flyout "overlap" */
+	top: -26px; /* this value controls the amount of flyout vertical offset */
+	}
+	
+.menu-manager-dropdown-flyout .last-parent li:hover div { /* reversed flyout rules for rightmost drop flyouts */
+	left: -210px; 
+	top: -26px;
+	}
+
+.menu-manager-dropdown-flyout  div.mini-zone { /* special hover zone that covers the "danger corner" */
+  padding: 0;
+  width: 15px;
+	height: 15px;  
+	font-size: 1px;
+	left: -3000px;
+	bottom: -15px;
+	top: auto;	
+	background: url(/images/menu_manager/bgfix.gif);
+	}
+
+.menu-manager-dropdown-flyout  .dropdown li:hover div.mini-zone { /* hover rule for mini-zones */
+	left: auto;
+	right: 8px;
+	top: auto;
+	}
+
+.menu-manager-dropdown-flyout  .last-parent li:hover div.mini-zone { /* reversed hover rule for rightmost drop mini-zones */
+	left: 8px;
+	}
+
+.menu-manager-dropdown-flyout .dropdown li:hover {
+  background: #ffffff;
+} /* hover color effect on dropdown links */
+
+.menu-manager-dropdown-flyout .dropdown div li:hover {
+  background: #ffffff;
+} /* hover color effect on flyout links */
+
+
+/*XXXXXXXXXXX Special fixes XXXXXXXXXXX*/
+
+/* This is to hide the following from IE/Mac. \*/
+* html .menu-manager-dropdown-flyout .button .dropdown li {
+height: 1%;
+margin-left: -16px;
+mar\gin-left: 0;
+}
+/* */
+
+* html .menu-manager-dropdown-flyout  a
+ {height: 1%;}
+
+/* The first 2 rules above fix "bullet region" problems in IE5.x/win, 
+and the 2nd is to make all links fully clickable. */    
+
+.menu-manager-dropdown-flyout .brclear { /* Use a break with this class to clear float containers */
+clear:both;
+height:0;
+margin:0;
+font-size: 1px;
+line-height: 0;
+}
+
+/*\*/ /*/
+.menu-manager-dropdown-flyout  .dropdown, .nav .dropdown div {width: 189px;}
+.menu-manager-dropdown-flyout  .button .dropdown ul {margin: 0px;}
+.menu-manager-dropdown-flyout  .dropdown, .nav .dropdown div {position: static;}
+.menu-manager-dropdown-flyout  .dropdown ul {border: 0;}
+.mini-zone {display: none;}
+/* this rule block "dumbs down" the nav for IEmac */
+
+
+.menu-manager-dropdown-flyout .dropdown ul li:hover div ul div {
+  display:none;
+}
+
+.menu-manager-dropdown-flyout .dropdown ul li:hover div ul li:hover div {
+  display:block;
+}
+
+
+.menu-manager-dropdown-flyout .dropdown ul li:hover div ul li:hover div ul div {
+  display:none;
+}
+
+.menu-manager-dropdown-flyout .dropdown ul li:hover div ul li:hover div ul li:hover div {
+  display:block;
+}
+

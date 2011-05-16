@@ -1,0 +1,24 @@
+# Localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  menu_manager: "Menu Manager"
+  new_menu: "New Menu"
+  menus: "Menus"
+  placement: "Placement"
+  editing_menu: "Editing Menu"
+  menu_details: "Menu Details"
+  menu_items: "Menu Items"
+  menu_item_type: "Menu Item Type"
+  new_menu_item: "New Menu Item"
+  editing_menu_item: "Editing Menu Item"
+  content_type: "Content Type"
+  content: "Content"
+  parent: "Parent"
+  position: "Position"  
+  page_title: "Page Title"
+  link: "Link"
+  expression: "Expression"
+
+  notice_messages:
+    menu_item_deleted : "Menu Item Deleted"

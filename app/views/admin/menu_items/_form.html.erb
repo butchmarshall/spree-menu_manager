@@ -1,0 +1,134 @@
+<% id = (menu_item.new_record?)? "new" : menu_item.id %>
+<% @captured_templates = {} %>
+
+<%= form_for( [:admin,@menu,menu_item],  :html => { :multipart => true } ) do |f| %>
+<%= hidden_field_tag :klass, menu_item[:type] unless menu_item.new_record? || menu_item[:type].to_s.empty? %>
+<%= f.hidden_field :menu_id %>
+<fieldset>
+  <%= content_tag("h1") do %>
+    <%= (menu_item.new_record?)? "New" : "Edit" %> Item
+  <% end %>
+
+  <%= f.field_container :name do %>
+    <%= f.label :name, t("name") %> <span class="required">*</span><br />
+    <%= f.text_field :name, :class => 'title'  %>
+    <%= f.error_message_on :name %>
+  <% end %>
+
+  <%= f.field_container :type do %>
+    <%= label_tag :type, t("type") %>
+    <%= select_tag :type, options_for_select( MenuItem::Types.to_a.collect { |i| i.reverse }.unshift([]), menu_item[:type] ),  { :onchange => "toggle_#{id}_menu_item_type(this)" } %>
+  <% end %>
+  <%= f.field_container :type do %>
+      <%= f.label :parent_id, t("parent") %>
+      <%= f.select :parent_id, nested_set_options(@menu_items, menu_item) {|i| "#{'--' * i.level} #{i.name}" }.unshift( ["-- Root Group --",'']  ) %>
+      <%= f.error_message_on :parent_id %>
+  <% end %>
+
+  <% @captured_templates[:menu_item_pages] = capture do %>
+  <div id="menu_item_page">
+    <h2>Details</h2>
+    <%= hidden_field_tag :type, "MenuItemPage" %>
+    <%= f.hidden_field :menuable_type, { :value => "Page" } %>
+
+    <table style="width:auto;">
+    <tr>
+      <td><%= f.label :menuable_id, t("page_title") %></td>
+      <td><%= f.select :menuable_id, @pages.collect { |i| [i.title,i.id] }, { :include_blank => true }, {} %>
+      <%= f.error_message_on :menuable_id %></td>
+    </tr>
+    </table>
+  </div>
+  <% end %>
+
+  <% @captured_templates[:menu_item_products] = capture do %>
+  <div id="menu_item_product">
+    <h2>Details</h2>
+    <%= hidden_field_tag :type, "MenuItemProduct" %>
+    <%= f.hidden_field :menuable_type, { :value => "Product" } %>
+
+    <table style="width:auto;">
+    <tr>
+      <td><%= f.label :menuable_id, t("product") %></td>
+      <td><%= f.select :menuable_id, @products.collect { |i| [i.name,i.id] }, { :include_blank => true }, {} %>
+      <%= f.error_message_on :menuable_id %></td>
+    </tr>
+    </table>
+  </div>
+  <% end %>
+
+  <% @captured_templates[:menu_item_links] = capture do %>
+  <div id="menu_item_link">
+    <h2>Details</h2>
+    <%= hidden_field_tag :type, "MenuItemLink" %>
+    <table style="width:auto;">
+    <tr>
+      <td><%= f.label :menuable_content, t("link") %></td>
+      <td><%= f.text_field :menuable_content %>
+      <%= f.error_message_on :menuable_content %></td>
+    </tr>
+    </table>
+  </div>
+  <% end %>
+
+  <% @captured_templates[:menu_item_eval_strings] = capture do %>
+  <div id="menu_item_link">
+    <h2>Details</h2>
+    <%= hidden_field_tag :type, "MenuItemEvalString" %>
+    <table style="width:auto;">
+    <tr>
+      <td><%= f.label :menuable_content, t("expression") %></td>
+      <td><%= f.text_field :menuable_content %>
+      <%= f.error_message_on :menuable_content %></td>
+    </tr>
+    </table>
+  </div>
+  <% end %>
+
+  <div id="menu_item_content"><%= @captured_templates[ menu_item[:type].to_s.tableize.to_sym ] %></div>
+
+  <div class="yui-gb">
+    <div class="yui-u first">
+
+ 
+    </div>
+    <div class="yui-u">
+
+    </div>
+  </div>
+
+	<%= submit_tag (menu_item.new_record?)? t("actions.create") : t("actions.update") %> 
+	<%= t("or") %> 
+	<%= link_to_function t("actions.cancel"), "$(this).closest('form').remove();" %>
+
+</fieldset>
+<% end %>
+
+<%= content_for :head do %>
+
+<% javascript_tag do %>
+
+function toggle_<%= id %>_menu_item_type(select) {
+  var $select = $(select),
+      templates = {
+        "MenuItemPage" : "<%= escape_javascript(@captured_templates[:menu_item_pages]) %>",
+        "MenuItemProduct" : "<%= escape_javascript(@captured_templates[:menu_item_products]) %>",
+        "MenuItemLink" : "<%= escape_javascript(@captured_templates[:menu_item_links]) %>",
+        "MenuItemEvalString" : "<%= escape_javascript(@captured_templates[:menu_item_eval_strings]) %>"
+      };
+
+  if( $select.val() == "" ) {
+
+    $("#menu_item_content").html("");
+
+  } else {
+
+    $("#menu_item_content").html( templates[ $select.val() ] );
+
+  }
+}
+
+<% end %>
+
+
+<% end %>

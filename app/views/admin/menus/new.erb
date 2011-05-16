@@ -1,0 +1,32 @@
+<%= render "shared/error_messages", :target => @menu %>
+
+<%= form_for(:menu,  :url => collection_url, :html => { :multipart => true }) do |f| %>
+<fieldset>
+
+  <%= f.field_container :name do %>
+    <%= f.label :name, t("name") %> <span class="required">*</span><br />
+    <%= f.text_field :name, :class => 'title'  %>
+    <%= f.error_message_on :name %>
+  <% end %>
+
+  <%= f.field_container :placement do %>
+    <%= f.label :placement, t("placement") %> <span class="required">*</span><br />
+    <%= f.text_field :placement, :class => 'title'  %>
+    <%= f.error_message_on :placement %>
+  <% end %>
+
+
+  <div class="yui-gb">
+    <div class="yui-u first">
+
+ 
+    </div>
+    <div class="yui-u">
+
+    </div>
+  </div>
+
+  <%= render :partial => 'admin/shared/new_resource_links' %>
+
+</fieldset>
+<% end %>

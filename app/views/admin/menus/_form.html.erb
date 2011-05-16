@@ -1,0 +1,23 @@
+<div class="yui-gc">
+  <div class="yui-u first">
+    <%- locals = {:f => f} %>
+    <%= hook :admin_menu_form_left, locals do %>
+      <%= f.field_container :name do %>
+        <%= f.label :name, t("name") %> <span class="required">*</span><br />
+        <%= f.text_field :name, :class => 'fullwidth title'  %>
+        <%= f.error_message_on :name %>
+      <% end %>
+
+      <%= f.field_container :placement do %>
+        <%= f.label :placement, t("placement") %> <span class="required">*</span><br />
+        <%= f.text_field :placement, :class => 'fullwidth title'  %>
+        <%= f.error_message_on :placement %>
+      <% end %>
+
+    <% end %>
+  </div>
+  <div class="yui-u">
+
+  </div>
+</div>
+

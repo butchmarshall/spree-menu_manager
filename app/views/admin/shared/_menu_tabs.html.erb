@@ -1,0 +1,21 @@
+<h1><%== t("editing_menu") + " &ldquo;#{@menu.name}&rdquo;" %></h1>
+
+<% content_for :sidebar do %>
+
+  <h3><%= @menu.name %></h3>
+  <br class="clear" />
+
+  <ul class="sidebar menu-menu">
+    <%= hook :admin_menu_tabs, {:current => current} do %>
+
+      <li<%== ' class="active"' if current == "Menu Details" %>>
+        <%= link_to t("menu_details"), edit_admin_menu_url(@menu) %>
+      </li>
+      <li<%== ' class="active"' if current == "Menu Items" %>>
+        <%= link_to t("menu_items"), admin_menu_menu_items_url(@menu) %>
+      </li>      
+    <% end %>
+  </ul>
+  <br class="clear" />
+
+<% end %>
